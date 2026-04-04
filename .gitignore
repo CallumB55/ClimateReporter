@@ -1,0 +1,18 @@
+# STM32
+Debug/
+Release/
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+.metadata/
+
+# Visual Studio
+.vs/
+x64/
+x86/
+*.exe
+*.pdb
+*.ilk
+packages/
