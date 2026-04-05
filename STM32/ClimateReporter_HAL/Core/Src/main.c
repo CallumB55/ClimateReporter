@@ -93,6 +93,13 @@ int main(void)
   displayClear(&hi2c1);
 
 
+  char fontChars[] = "Hello world";
+  writeTextToDisplay(&hi2c1,fontChars);
+
+
+
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

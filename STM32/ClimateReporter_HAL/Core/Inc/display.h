@@ -12,6 +12,7 @@
 void displayInit(I2C_HandleTypeDef *hi2c);
 void displayClear(I2C_HandleTypeDef *hi2c);
 void stringToDisplayBytes(char input[], uint8_t* outputBuffer);
+void writeTextToDisplay(I2C_HandleTypeDef *hi2c, char input[]);
 
 
 #endif /* INC_DISPLAY_H_ */

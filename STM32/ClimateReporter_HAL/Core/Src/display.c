@@ -100,6 +100,11 @@ void stringToDisplayBytes(char input[], uint8_t* outputBuffer){
 	stringToBytes(input,outputBuffer); //have removed this functionality from display to allow for tdd without hardware emulation
 }
 
+void writeTextToDisplay(I2C_HandleTypeDef *hi2c, char input[]){
+	uint8_t outputBuffer[strlen(input)*6];
+	stringToDisplayBytes(input,outputBuffer);
+	HAL_I2C_Master_Transmit(hi2c, 0x78, outputBuffer, sizeof(outputBuffer), HAL_MAX_DELAY);
+}
 
 
 
