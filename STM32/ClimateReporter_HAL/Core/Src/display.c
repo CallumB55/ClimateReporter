@@ -101,11 +101,19 @@ void stringToDisplayBytes(char input[], uint8_t* outputBuffer){
 }
 
 void writeTextToDisplay(I2C_HandleTypeDef *hi2c, char input[]){
-	uint8_t outputBuffer[strlen(input)*6];
+	uint8_t outputBuffer[(strlen(input)*6)+1];
 	stringToDisplayBytes(input,outputBuffer);
 	HAL_I2C_Master_Transmit(hi2c, 0x78, outputBuffer, sizeof(outputBuffer), HAL_MAX_DELAY);
 }
 
+void setPage(I2C_HandleTypeDef *hi2c,uint8_t lowerBound,uint8_t upperBound){
+	uint8_t pageCommand[4] = {0x00,0x22,lowerBound,upperBound};
+	HAL_I2C_Master_Transmit(hi2c, 0x78, pageCommand, sizeof(pageCommand), HAL_MAX_DELAY);
+}
+void setColumns(I2C_HandleTypeDef *hi2c,uint8_t lowerBound,uint8_t upperBound){
+	uint8_t columnCommand[4] = {0x00,0x21,lowerBound,upperBound};
+	HAL_I2C_Master_Transmit(hi2c, 0x78, columnCommand, sizeof(columnCommand), HAL_MAX_DELAY);
+}
 
 
 

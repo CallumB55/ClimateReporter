@@ -93,8 +93,27 @@ int main(void)
   displayClear(&hi2c1);
 
 
-  char fontChars[] = "Hello world";
-  writeTextToDisplay(&hi2c1,fontChars);
+  char title1[] = "Callums Environment";
+  char title2[] = "Data Reporter";
+  char tempAnnounce[] = "Temperature:";
+  char humidAnnounce[] = "Humidity:";
+  setPage(&hi2c1,0,0);
+  setColumns(&hi2c1,5,127);
+  writeTextToDisplay(&hi2c1,title1);
+
+  setPage(&hi2c1,1,1);
+  setColumns(&hi2c1,23,127);
+  writeTextToDisplay(&hi2c1,title2);
+
+  setPage(&hi2c1,3,3);
+  setColumns(&hi2c1,0,90);
+  writeTextToDisplay(&hi2c1,tempAnnounce);
+
+  setPage(&hi2c1,5,5);
+  setColumns(&hi2c1,18,90);
+  writeTextToDisplay(&hi2c1,humidAnnounce);
+
+
 
 
 
