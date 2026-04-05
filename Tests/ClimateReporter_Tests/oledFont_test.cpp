@@ -109,7 +109,6 @@ TEST(FontRendererTest, HandlesHighestSupportedAscii) {
     stringToBytes(testString, buffer);
 
     EXPECT_EQ(buffer[0], CONTROL_BYTE);
-    //create negative space x
     EXPECT_EQ(buffer[1], 0x44);
     EXPECT_EQ(buffer[2], 0x64);
     EXPECT_EQ(buffer[3], 0x54);
