@@ -19,6 +19,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "display.h"
+#include <stdio.h>
+#include "bme280.h"
+#include <string.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -97,6 +100,7 @@ int main(void)
   char title2[] = "Data Reporter";
   char tempAnnounce[] = "Temperature:";
   char humidAnnounce[] = "Humidity:";
+  char pressAnnounce[] = "Pressure:";
   setPage(&hi2c1,0,0);
   setColumns(&hi2c1,5,127);
   writeTextToDisplay(&hi2c1,title1);
@@ -113,7 +117,48 @@ int main(void)
   setColumns(&hi2c1,18,90);
   writeTextToDisplay(&hi2c1,humidAnnounce);
 
+  setPage(&hi2c1,7,7);
+  setColumns(&hi2c1,18,90);
+  writeTextToDisplay(&hi2c1,pressAnnounce);
 
+  HAL_I2C_SlaveRxCpltCallback(&hi2c1);
+
+  uint8_t readBuffer[16];
+
+  bme280Init(&hi2c1);
+  bme280Calibration(&hi2c1,readBuffer);
+  char displayString[17];
+  memcpy(displayString,readBuffer,8);
+  displayString[16] = '\0';
+  setPage(&hi2c1,7,7);
+  setColumns(&hi2c1,91,127);
+  writeTextToDisplay(&hi2c1,displayString);
+
+
+//  uint8_t chipId = 0;
+//  HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, 0xEC, 0xD0, I2C_MEMADD_SIZE_8BIT, &chipId, 1, HAL_MAX_DELAY);
+//  char worked[] = "success";
+//  char failed[] = "failed";
+//  uint8_t devices[4] = {0};
+//  uint8_t index = 0;
+//  // Scan every possible I2C address
+//  for (uint16_t i = 0; i < 256; i++) {
+//      // If the device ACKs, the function returns HAL_OK
+//      if (HAL_I2C_IsDeviceReady(&hi2c1, i, 1, 10) == HAL_OK) {
+//          devices[index] = i;
+//          index++;
+//          // WE FOUND SOMETHING AT ADDRESS 'i'!
+//          // (Note: Address 0x78 will trigger here because that is your OLED)
+//
+//      }
+//  }
+//
+//  char deviceAddrs[20];
+//  //sprintf(deviceAddrs, "1:0x%02X 2:0x%02X", devices[2], devices[3]);
+//  sprintf(deviceAddrs,"0x%02X",chipId);
+//  setPage(&hi2c1,7,7);
+//  setColumns(&hi2c1,0,90);
+//  writeTextToDisplay(&hi2c1,deviceAddrs);
 
 
 
