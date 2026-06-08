@@ -5,9 +5,10 @@
  *      Author: CallumBinns
  */
 
-#include "bme280.h"
+#include "bme280_defs.h"
+#include <stdint.h>
 
-void formatMeasurements(BME280_Mem_t *data, uint8_t *rawBuffer,char *tempOut, char *pressOut, char *humOut){
+void formatMeasurements(BME280_Calib_t *data, uint8_t *rawBuffer,char *tempOut, char *pressOut, char *humOut){
 	//uint16_t tempMSB;//keeping these for later
 	//uint16_t tempLSB;
 	//uint16_t tempXLSB;
@@ -20,15 +21,27 @@ void formatMeasurements(BME280_Mem_t *data, uint8_t *rawBuffer,char *tempOut, ch
 	//not implemented
 }
 
-void tempCalcRawValue(BME280_Mem_t *data, uint8_t *rawBuffer,float *numericTempOut){
+void tempCalcRawValue(BME280_Calib_t *data, uint8_t *rawBuffer,uint32_t *numericTempOut){
 	//not implemented
 }
 
-void pressCalcRawValue(BME280_Mem_t *data, uint8_t *rawBuffer,float *numericPressOut){
+void pressCalcRawValue(BME280_Calib_t *data, uint8_t *rawBuffer,uint32_t *numericPressOut){
 	//not implemented
 }
 
-void humCalcRawValue(BME280_Mem_t *data, uint8_t *rawBuffer,float *numericHumOut){
+void humCalcRawValue(BME280_Calib_t *data, uint8_t *rawBuffer,uint32_t *numericHumOut){
+	//not implemented
+}
+
+void tempRawToFormatted(uint32_t *numericTempIn, char *tempOut){
+	//not implemented
+}
+
+void pressRawToFormatted(uint32_t *numericPressIn, char *pressOut){
+	//not implemented
+}
+
+void humRawToFormatted(uint32_t *numericHumIn, char *humOut){
 	//not implemented
 }
 

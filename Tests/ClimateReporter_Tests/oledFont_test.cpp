@@ -23,6 +23,21 @@ TEST(FontRendererTest, ConvertsSingleCharToCorrectHexBytes) {
     EXPECT_EQ(buffer[6], 0x00);
 }
 
+TEST(FontRendererTest, ConvertsNewlyAddedFullStop) {
+    uint8_t buffer[7] = { 0 };
+    char testString[] = ".";
+
+    stringToBytes(testString, buffer);
+
+    EXPECT_EQ(buffer[0], CONTROL_BYTE);
+    EXPECT_EQ(buffer[1], 0x00);
+    EXPECT_EQ(buffer[2], 0x03);
+    EXPECT_EQ(buffer[3], 0x03);
+    EXPECT_EQ(buffer[4], 0x00);
+    EXPECT_EQ(buffer[5], 0x00);
+    EXPECT_EQ(buffer[6], 0x00);
+}
+
 TEST(FontRendererTest, ConvertsMultipleCharacters) {
     uint8_t buffer[19] = { 0 };
     char testString[] = "ABC";

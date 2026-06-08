@@ -7,7 +7,8 @@
 
 #ifndef INC_MEASUREMENTS_H_
 #define INC_MEASUREMENTS_H_
-#include "bme280.h"
+#include <stdint.h>
+#include "bme280_defs.h"
 
 void formatMeasurements(BME280_Calib_t *data, uint8_t *rawBuffer,char *tempOut, char *pressOut, char *humOut);
 

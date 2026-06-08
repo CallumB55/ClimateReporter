@@ -98,14 +98,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\STM32\ClimateReporter_HAL\Core\Inc\bme280_defs.h" />
+    <ClInclude Include="..\..\STM32\ClimateReporter_HAL\Core\Inc\measurements.h" />
     <ClInclude Include="..\..\STM32\ClimateReporter_HAL\Core\Inc\oledFont.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\STM32\ClimateReporter_HAL\Core\Src\measurements.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\STM32\ClimateReporter_HAL\Core\Src\oledFont.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="measurements_test.cpp" />
     <ClCompile Include="oledFont_test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

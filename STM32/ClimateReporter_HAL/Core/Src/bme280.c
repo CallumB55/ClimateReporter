@@ -6,6 +6,7 @@
  */
 #include "stm32f4xx_hal.h"
 #include <stdint.h>
+#include "bme280_defs.h"
 
 void bme280Init(I2C_HandleTypeDef *hi2c){
 	uint8_t humControl = 0x01;
@@ -28,9 +29,9 @@ void bme280Read(I2C_HandleTypeDef *hi2c, uint8_t* readingBuffer){
 }
 
 void bme280Calibration(I2C_HandleTypeDef *hi2c, BME280_Calib_t *calib){
-	uint8_t* readingBuffer1[26];
+	uint8_t readingBuffer1[26];
 	//Read first calibration block
-	HAL_I2C_Mem_Read(hi2c, 0xEC, 0x88, I2C_MEMADD_SIZE_8BIT, readingBuffer, 26, HAL_MAX_DELAY);
+	HAL_I2C_Mem_Read(hi2c, 0xEC, 0x88, I2C_MEMADD_SIZE_8BIT, readingBuffer1, 26, HAL_MAX_DELAY);
 	calib->dig_T1 = (readingBuffer1[1] << 8) | readingBuffer1[0];
 	calib->dig_T2 = (readingBuffer1[3] << 8) | readingBuffer1[2];
 	calib->dig_T3 = (readingBuffer1[5] << 8) | readingBuffer1[4];
@@ -47,7 +48,7 @@ void bme280Calibration(I2C_HandleTypeDef *hi2c, BME280_Calib_t *calib){
 
 
 	//read second calibration block
-	uint8_t* readingBuffer2[7];
+	uint8_t readingBuffer2[7];
 	HAL_I2C_Mem_Read(hi2c, 0xEC, 0xE1, I2C_MEMADD_SIZE_8BIT, readingBuffer2, 7, HAL_MAX_DELAY);
 	calib->dig_H2 = (readingBuffer2[1] << 8) | readingBuffer2[0];
 	calib->dig_H3 = readingBuffer2[2];
