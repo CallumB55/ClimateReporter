@@ -15,6 +15,6 @@
 
 void bme280Init(I2C_HandleTypeDef *hi2c);
 void bme280Read(I2C_HandleTypeDef *hi2c, uint8_t* readingBuffer);
-void bme280Calibration(I2C_HandleTypeDef *hi2c, uint8_t* readingBuffer);
+void bme280Calibration(I2C_HandleTypeDef *hi2c, BME280_Calib_t *calib);
 
 #endif /* INC_BME280_H_ */

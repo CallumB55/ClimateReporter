@@ -26,8 +26,8 @@ typedef struct {
 	uint8_t dig_H1;
 	int16_t dig_H2;
 	uint8_t dig_H3;
-	uint16_t dig_H4;
-	uint16_t dig_H5;
+	int16_t dig_H4;
+	int16_t dig_H5;
 	int8_t dig_H6;
 
 

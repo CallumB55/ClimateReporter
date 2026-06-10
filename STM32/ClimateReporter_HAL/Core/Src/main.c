@@ -21,6 +21,7 @@
 #include "display.h"
 #include <stdio.h>
 #include "bme280.h"
+#include "bme280_defs.h"
 #include <string.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -97,7 +98,7 @@ int main(void)
 
 
   char title1[] = "Callums Environment";
-  char title2[] = "Data Reporter";
+  char title2[] = "Data Reported";
   char tempAnnounce[] = "Temperature:";
   char humidAnnounce[] = "Humidity:";
   char pressAnnounce[] = "Pressure:";
@@ -124,42 +125,26 @@ int main(void)
   HAL_I2C_SlaveRxCpltCallback(&hi2c1);
 
   uint8_t readBuffer[16];
+  BME280_Calib_t calib;
+  HAL_Delay(1000);
 
   bme280Init(&hi2c1);
-  bme280Calibration(&hi2c1,readBuffer);
-  char displayString[17];
-  memcpy(displayString,readBuffer,8);
-  displayString[16] = '\0';
-  setPage(&hi2c1,7,7);
-  setColumns(&hi2c1,91,127);
-  writeTextToDisplay(&hi2c1,displayString);
+  bme280Calibration(&hi2c1,&calib);
 
+  // =================== DELETE THIS BLOCK WHEN DONE DEBUGGING ===================
+  #define TARGET_VAR calib.dig_H5  // <--- CHANGE JUST THIS VARIABLE TO DEBUG
+  #define IS_SIGNED 1              // <--- SET TO 1 FOR SIGNED (int16_t/int8_t), 0 FOR UNSIGNED (uint16_t/uint8_t)
 
-//  uint8_t chipId = 0;
-//  HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c1, 0xEC, 0xD0, I2C_MEMADD_SIZE_8BIT, &chipId, 1, HAL_MAX_DELAY);
-//  char worked[] = "success";
-//  char failed[] = "failed";
-//  uint8_t devices[4] = {0};
-//  uint8_t index = 0;
-//  // Scan every possible I2C address
-//  for (uint16_t i = 0; i < 256; i++) {
-//      // If the device ACKs, the function returns HAL_OK
-//      if (HAL_I2C_IsDeviceReady(&hi2c1, i, 1, 10) == HAL_OK) {
-//          devices[index] = i;
-//          index++;
-//          // WE FOUND SOMETHING AT ADDRESS 'i'!
-//          // (Note: Address 0x78 will trigger here because that is your OLED)
-//
-//      }
-//  }
-//
-//  char deviceAddrs[20];
-//  //sprintf(deviceAddrs, "1:0x%02X 2:0x%02X", devices[2], devices[3]);
-//  sprintf(deviceAddrs,"0x%02X",chipId);
-//  setPage(&hi2c1,7,7);
-//  setColumns(&hi2c1,0,90);
-//  writeTextToDisplay(&hi2c1,deviceAddrs);
-
+  char b_str[7];
+  if (sizeof(TARGET_VAR) == 1) {
+      if (IS_SIGNED) sprintf(b_str, "%d", *(int8_t*)&(TARGET_VAR));
+      else           sprintf(b_str, "%u", *(uint8_t*)&(TARGET_VAR));
+  } else {
+      if (IS_SIGNED) sprintf(b_str, "%d", *(int16_t*)&(TARGET_VAR));
+      else           sprintf(b_str, "%u", *(uint16_t*)&(TARGET_VAR));
+  }
+  setPage(&hi2c1,7,7); setColumns(&hi2c1,90,127); writeTextToDisplay(&hi2c1,b_str);
+  // =============================================================================
 
 
 

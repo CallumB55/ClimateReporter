@@ -52,8 +52,8 @@ void bme280Calibration(I2C_HandleTypeDef *hi2c, BME280_Calib_t *calib){
 	HAL_I2C_Mem_Read(hi2c, 0xEC, 0xE1, I2C_MEMADD_SIZE_8BIT, readingBuffer2, 7, HAL_MAX_DELAY);
 	calib->dig_H2 = (readingBuffer2[1] << 8) | readingBuffer2[0];
 	calib->dig_H3 = readingBuffer2[2];
-	calib->dig_H4 = (readingBuffer2[4] << 8) | readingBuffer2[3];
-	calib->dig_H5 = (readingBuffer2[6] << 8) | readingBuffer2[5];
+	calib->dig_H4 = ((int8_t)readingBuffer2[3] << 4) | (readingBuffer2[4] & 0x0F); //bitwise and to grab rhs bits from split byte
+	calib->dig_H5 = ((int8_t)readingBuffer2[5] << 4) | readingBuffer2[4] >> 4; //bit shift to grab lhs bits from split byte
 	calib->dig_H6 = readingBuffer2[6];
 
 

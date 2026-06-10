@@ -1,81 +1,79 @@
 #include "gtest/gtest.h"
 #include "pch.h"
+extern "C" {
 #include "measurements.h"
+#include "bme280_defs.h"
+}
+//Temp: 2549, Press : 25705619, Hum : 0
+BME280_Calib_t actualCalibData = {
+    .dig_T1 = 28241,
+    .dig_T2 = 26413,
+    .dig_T3 = 50,
+    .dig_P1 = 36083,
+    .dig_P2 = -10589,
+    .dig_P3 = 3024,
+    .dig_P4 = 8535,
+    .dig_P5 = -92,
+    .dig_P6 = -7,
+    .dig_P7 = 11700,
+    .dig_P8 = -11800,
+    .dig_P9 = 5000,
+    .dig_H1 = 75,
+    .dig_H2 = 373,
+    .dig_H3 = 0,
+    .dig_H4 = 293,
+    .dig_H5 = 50,
+    .dig_H6 = 30
+
+};
+
+uint8_t actualRead[8] = { 81,40,0,130,20,0,103,58 };
+uint8_t blankRead[8];
+BME280_Calib_t blankCalib;
+
+//Temp: 2549, Press: 25705619, Hum: 44539
 
 // 1. Correctly format a positive temperature
 TEST(CorrectFormatTest, goodPositiveTemperatureInput) {
-    EXPECT_EQ(1, 1);
+    char tempOut[7];
+    char humOut[9];
+    char pressOut[12];
+    formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
+
+    EXPECT_STREQ(tempOut, "25.49C");
     EXPECT_TRUE(true);
 }
 
 // 2. Correctly format a negative temperature
 TEST(CorrectFormatTest, goodNegativeTemperatureInput) {
-    EXPECT_EQ(1, 1);
+    uint8_t negativeTempRead[8] = { 81,40,0,100,20,0,103,58 };
+    char tempOut[7];
+    char humOut[9];
+    char pressOut[12];
+    formatMeasurements(&actualCalibData, negativeTempRead, tempOut, pressOut, humOut);
+
+    EXPECT_STREQ(tempOut, "-13.20C");
     EXPECT_TRUE(true);
 }
 
 // 3. Correctly format pressure
 TEST(CorrectFormatTest, goodPressureInput) {
-    EXPECT_EQ(1, 1);
+    char tempOut[7];
+    char humOut[9];
+    char pressOut[12];
+    formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
+    EXPECT_STREQ(pressOut, "1004.125hPa");
     EXPECT_TRUE(true);
 }
 
 // 4. Correctly format humidity
 TEST(CorrectFormatTest, goodHumidityInput) {
-    EXPECT_EQ(1, 1);
+    char tempOut[7];
+    char humOut[9];
+    char pressOut[12];
+    formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
+    EXPECT_STREQ(humOut, "43.49%RH");
     EXPECT_TRUE(true);
 }
 
-// 5. Correctly format temperature where the measurement equals the calibration
-TEST(CorrectFormatTest, temperatureMeasurementEqualsCalibration) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
 
-// 6. Correctly format pressure where the measurement equals the calibration
-TEST(CorrectFormatTest, pressureMeasurementEqualsCalibration) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-// 7. Correctly format humidity where the measurement equals the calibration
-TEST(CorrectFormatTest, humidityMeasurementEqualsCalibration) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-// 8. Show blank temp when given an empty buffer
-TEST(ShowBlankIfBad, emptyBufferTemperatureInput) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-// 9. Show blank press when given an empty buffer
-TEST(ShowBlankIfBad, emptyBufferPressureInput) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-// 10. Show blank hum when given an empty buffer
-TEST(ShowBlankIfBad, emptyBufferHumidityInput) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-// 11. Show blank temp when given an empty calibration struct
-TEST(ShowBlankIfBad, emptyCalibrationTemperatureInput) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-// 12. Show blank press when given an empty calibration struct
-TEST(ShowBlankIfBad, emptyCalibrationPressureInput) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
-
-// 13. Show blank hum when given an empty calibration struct
-TEST(ShowBlankIfBad, emptyCalibrationHumidityInput) {
-    EXPECT_EQ(1, 1);
-    EXPECT_TRUE(true);
-}
