@@ -92,7 +92,7 @@ TEST(CorrectFormatTest, goodPressureInput) {
     char humOut[15];
     char pressOut[15];
     formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
-    EXPECT_STREQ(pressOut, "1004.126hPa");
+    EXPECT_STREQ(pressOut, "1004.125hPa");
     EXPECT_TRUE(true);
 }
 
@@ -102,7 +102,7 @@ TEST(CorrectFormatTest, goodHumidityInput) {
     char humOut[15];
     char pressOut[15];
     formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
-    EXPECT_STREQ(humOut, "43.50%RH");
+    EXPECT_STREQ(humOut, "43.49%RH");
     EXPECT_TRUE(true);
 }
 

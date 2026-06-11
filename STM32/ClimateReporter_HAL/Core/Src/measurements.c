@@ -48,13 +48,21 @@ void tempRawToFormatted(int32_t numericTempIn, char* tempOut) {
 }
 
 void pressRawToFormatted(uint32_t numericPressIn, char* pressOut) {
-    float press = numericPressIn / 25600.0f;
-    sprintf(pressOut, "%.3fhPa", press);
+    uint32_t pressInt = numericPressIn / 25600;
+    uint32_t pressDp = ((numericPressIn % 25600) * 1000) / 25600;
+    sprintf(pressOut, "%d.%dhPa", pressInt, pressDp);
+    //float press = numericPressIn / 25600.0f;
+    //sprintf(pressOut, "%.3fhPa", press);
 }
 
 void humRawToFormatted(uint32_t numericHumIn, char* humOut) {
-    float hum = numericHumIn / 1024.0f;
-    sprintf(humOut, "%.2f%%RH", hum);
+    uint32_t humInt = numericHumIn / 1024;
+    uint32_t humDp = ((numericHumIn % 1024)*100)/1024;
+
+    
+    //float hum = numericHumIn / 1024.0f;
+    //sprintf(humOut, "%.2f%%RH", hum);
+    sprintf(humOut, "%d.%d%%RH", humInt, humDp);
 }
 
 

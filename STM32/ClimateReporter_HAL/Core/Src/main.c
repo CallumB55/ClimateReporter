@@ -111,15 +111,15 @@ int main(void)
   setColumns(&hi2c1,23,127);
   writeTextToDisplay(&hi2c1,title2);
 
-  setPage(&hi2c1,3,3);
+  setPage(&hi2c1,2,2);
   setColumns(&hi2c1,0,90);
   writeTextToDisplay(&hi2c1,tempAnnounce);
 
-  setPage(&hi2c1,5,5);
+  setPage(&hi2c1,4,4);
   setColumns(&hi2c1,18,90);
   writeTextToDisplay(&hi2c1,humidAnnounce);
 
-  setPage(&hi2c1,7,7);
+  setPage(&hi2c1,6,6);
   setColumns(&hi2c1,18,90);
   writeTextToDisplay(&hi2c1,pressAnnounce);
 
@@ -151,15 +151,15 @@ int main(void)
 	HAL_Delay(10);
 	formatMeasurements(&calib,readBuffer,tempOut,pressOut,humOut);
 	setPage(&hi2c1,3,3);
-	setColumns(&hi2c1,90,126);
+	setColumns(&hi2c1,60,126);
 	writeTextToDisplay(&hi2c1,tempOut);
 	HAL_Delay(100);
 	setPage(&hi2c1,5,5);
-	setColumns(&hi2c1,90,126);
+	setColumns(&hi2c1,60,126);
 	writeTextToDisplay(&hi2c1,humOut);
 	HAL_Delay(100);
 	setPage(&hi2c1,7,7);
-	setColumns(&hi2c1,90,126);
+	setColumns(&hi2c1,55,126);
 	writeTextToDisplay(&hi2c1,pressOut);
 	HAL_Delay(100);
 
