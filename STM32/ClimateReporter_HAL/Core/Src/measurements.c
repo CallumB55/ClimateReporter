@@ -13,7 +13,7 @@
 void tempRawToFormatted(int32_t numericTempIn, char* tempOut) {
     //5123
     //51.23C
-    if (numericTempIn == 0 | numericTempIn == NULL)
+    if (numericTempIn == 0)
     {
         sprintf(tempOut, "0.00C");
         return;

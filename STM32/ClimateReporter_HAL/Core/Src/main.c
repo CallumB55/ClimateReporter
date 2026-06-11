@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include "bme280.h"
 #include "bme280_defs.h"
+#include "measurements.h"
 #include <string.h>
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -98,7 +99,7 @@ int main(void)
 
 
   char title1[] = "Callums Environment";
-  char title2[] = "Data Reported";
+  char title2[] = "Data Reporter";
   char tempAnnounce[] = "Temperature:";
   char humidAnnounce[] = "Humidity:";
   char pressAnnounce[] = "Pressure:";
@@ -124,28 +125,12 @@ int main(void)
 
   HAL_I2C_SlaveRxCpltCallback(&hi2c1);
 
-  uint8_t readBuffer[16];
+
   BME280_Calib_t calib;
   HAL_Delay(1000);
 
   bme280Init(&hi2c1);
   bme280Calibration(&hi2c1,&calib);
-
-  // =================== DELETE THIS BLOCK WHEN DONE DEBUGGING ===================
-  #define TARGET_VAR calib.dig_H5  // <--- CHANGE JUST THIS VARIABLE TO DEBUG
-  #define IS_SIGNED 1              // <--- SET TO 1 FOR SIGNED (int16_t/int8_t), 0 FOR UNSIGNED (uint16_t/uint8_t)
-
-  char b_str[7];
-  if (sizeof(TARGET_VAR) == 1) {
-      if (IS_SIGNED) sprintf(b_str, "%d", *(int8_t*)&(TARGET_VAR));
-      else           sprintf(b_str, "%u", *(uint8_t*)&(TARGET_VAR));
-  } else {
-      if (IS_SIGNED) sprintf(b_str, "%d", *(int16_t*)&(TARGET_VAR));
-      else           sprintf(b_str, "%u", *(uint16_t*)&(TARGET_VAR));
-  }
-  setPage(&hi2c1,7,7); setColumns(&hi2c1,90,127); writeTextToDisplay(&hi2c1,b_str);
-  // =============================================================================
-
 
 
 
@@ -158,7 +143,26 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	char tempOut[12];
+	char humOut[15];
+	char pressOut[15];
+	uint8_t readBuffer[16];
+	bme280Read(&hi2c1,readBuffer);
 	HAL_Delay(10);
+	formatMeasurements(&calib,readBuffer,tempOut,pressOut,humOut);
+	setPage(&hi2c1,3,3);
+	setColumns(&hi2c1,90,126);
+	writeTextToDisplay(&hi2c1,tempOut);
+	HAL_Delay(100);
+	setPage(&hi2c1,5,5);
+	setColumns(&hi2c1,90,126);
+	writeTextToDisplay(&hi2c1,humOut);
+	HAL_Delay(100);
+	setPage(&hi2c1,7,7);
+	setColumns(&hi2c1,90,126);
+	writeTextToDisplay(&hi2c1,pressOut);
+	HAL_Delay(100);
+
   }
   /* USER CODE END 3 */
 }
