@@ -14,7 +14,8 @@ uint8_t* charToDisplayByte(char input) {
     {0x00, 0x00, 0x00, 0x00, 0x00}, // 32: Space
 
     {0x23, 0x13, 0x08, 0x64, 0x62}, // 37: %
-    {0x00, 0x03, 0x03, 0x00, 0x00},  // 46: .
+    {0x18, 0x18, 0x18, 0x18, 0x18}, // 45: -
+    {0x00, 0x60, 0x60, 0x00, 0x00},  // 46: .
     {0x3E, 0x51, 0x49, 0x45, 0x3E}, // 48: 0
     {0x00, 0x42, 0x7F, 0x40, 0x00}, // 49: 1
     {0x42, 0x61, 0x51, 0x49, 0x46}, // 50: 2
@@ -87,19 +88,23 @@ uint8_t* charToDisplayByte(char input) {
     //valid if between 48-58 inclusive or 65-90 inclusive or 97-122 inclusive or is a space or is a percent sign
     if (input >= 48 && input <= 58)
     {
-        return font5x7[input - 45];
+        return font5x7[input - 44];
     }
     if (input >= 65 && input <= 90)
     {
-        return font5x7[input - 51];
+        return font5x7[input - 50];
     }
     if (input >= 97 && input <= 122)
     {
-        return font5x7[input - 57];
+        return font5x7[input - 56];
     }
     if (input == ' ')
     {
         return font5x7[0];
+    }
+    if (input == '-')
+    {
+        return font5x7[2];
     }
     if (input == '%')
     {
@@ -107,7 +112,7 @@ uint8_t* charToDisplayByte(char input) {
     }
     if (input == '.')
     {
-        return font5x7[2];
+        return font5x7[3];
     }
     else
     {

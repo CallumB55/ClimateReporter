@@ -31,8 +31,8 @@ TEST(FontRendererTest, ConvertsNewlyAddedFullStop) {
 
     EXPECT_EQ(buffer[0], CONTROL_BYTE);
     EXPECT_EQ(buffer[1], 0x00);
-    EXPECT_EQ(buffer[2], 0x03);
-    EXPECT_EQ(buffer[3], 0x03);
+    EXPECT_EQ(buffer[2], 0x60);
+    EXPECT_EQ(buffer[3], 0x60);
     EXPECT_EQ(buffer[4], 0x00);
     EXPECT_EQ(buffer[5], 0x00);
     EXPECT_EQ(buffer[6], 0x00);
