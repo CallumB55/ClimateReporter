@@ -9,6 +9,8 @@
 #define INC_MEASUREMENTS_H_
 #include <stdint.h>
 #include "bme280_defs.h"
+#include <stdio.h>
+#include <string.h>
 
 void formatMeasurements(BME280_Calib_t *data, uint8_t *rawBuffer,char *tempOut, char *pressOut, char *humOut);
 

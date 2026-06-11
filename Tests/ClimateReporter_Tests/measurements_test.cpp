@@ -35,21 +35,51 @@ BME280_Calib_t blankCalib;
 
 // 1. Correctly format a positive temperature
 TEST(CorrectFormatTest, goodPositiveTemperatureInput) {
-    char tempOut[7];
-    char humOut[9];
-    char pressOut[12];
+    char tempOut[12];
+    char humOut[15];
+    char pressOut[15];
     formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
 
     EXPECT_STREQ(tempOut, "25.49C");
     EXPECT_TRUE(true);
 }
 
+TEST(CorrectFormatTest, good2DpTemperatureInput) {
+    char tempOut[12];
+    char humOut[15];
+    char pressOut[15];
+    uint8_t smallTempRead[8] = { 81,40,0,111,20,0,103,58 };
+    formatMeasurements(&actualCalibData, smallTempRead, tempOut, pressOut, humOut);
+    EXPECT_STREQ(tempOut, " 0.98C");
+    EXPECT_TRUE(true);
+}
+
+TEST(CorrectFormatTest, good1DpTemperatureInput) {
+    char tempOut[12];
+    char humOut[15];
+    char pressOut[15];
+    uint8_t smallTempRead[8] = { 81,40,0,110,90,0,103,58 };
+    formatMeasurements(&actualCalibData, smallTempRead, tempOut, pressOut, humOut);
+    EXPECT_STREQ(tempOut, " 0.05C");
+    EXPECT_TRUE(true);
+}
+
+TEST(CorrectFormatTest, goodNegative2DpTemperatureInput) {
+    char tempOut[12];
+    char humOut[15];
+    char pressOut[15];
+    uint8_t smallTempRead[8] = { 81,40,0,110,20,0,103,58 };
+    formatMeasurements(&actualCalibData, smallTempRead, tempOut, pressOut, humOut);
+    EXPECT_STREQ(tempOut, "-0.31C");
+    EXPECT_TRUE(true);
+}
+
 // 2. Correctly format a negative temperature
 TEST(CorrectFormatTest, goodNegativeTemperatureInput) {
     uint8_t negativeTempRead[8] = { 81,40,0,100,20,0,103,58 };
-    char tempOut[7];
-    char humOut[9];
-    char pressOut[12];
+    char tempOut[12];
+    char humOut[15];
+    char pressOut[15];
     formatMeasurements(&actualCalibData, negativeTempRead, tempOut, pressOut, humOut);
 
     EXPECT_STREQ(tempOut, "-13.20C");
@@ -58,21 +88,21 @@ TEST(CorrectFormatTest, goodNegativeTemperatureInput) {
 
 // 3. Correctly format pressure
 TEST(CorrectFormatTest, goodPressureInput) {
-    char tempOut[7];
-    char humOut[9];
-    char pressOut[12];
+    char tempOut[12];
+    char humOut[15];
+    char pressOut[15];
     formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
-    EXPECT_STREQ(pressOut, "1004.125hPa");
+    EXPECT_STREQ(pressOut, "1004.126hPa");
     EXPECT_TRUE(true);
 }
 
 // 4. Correctly format humidity
 TEST(CorrectFormatTest, goodHumidityInput) {
-    char tempOut[7];
-    char humOut[9];
-    char pressOut[12];
+    char tempOut[12];
+    char humOut[15];
+    char pressOut[15];
     formatMeasurements(&actualCalibData, actualRead, tempOut, pressOut, humOut);
-    EXPECT_STREQ(humOut, "43.49%RH");
+    EXPECT_STREQ(humOut, "43.50%RH");
     EXPECT_TRUE(true);
 }
 

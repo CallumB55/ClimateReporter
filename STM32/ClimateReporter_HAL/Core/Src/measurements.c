@@ -7,6 +7,56 @@
 
 #include "bme280_defs.h"
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
+void tempRawToFormatted(int32_t numericTempIn, char* tempOut) {
+    //5123
+    //51.23C
+    if (numericTempIn == 0 | numericTempIn == NULL)
+    {
+        sprintf(tempOut, "0.00C");
+        return;
+    }
+    if (numericTempIn >= -99 && numericTempIn <= 99)
+    {
+        char sign = ' ';
+        if (numericTempIn < 0)
+        {
+            sign = '-';
+            numericTempIn = numericTempIn * -1;
+        }
+        if (numericTempIn >= -9 && numericTempIn <= 9)
+        {
+            sprintf(tempOut, "%c0.0%dC",sign, numericTempIn);
+            return;
+        }
+        sprintf(tempOut, "%c0.%dC",sign, numericTempIn);
+        return;
+
+    }
+    sprintf(tempOut, "%d", numericTempIn);
+    uint8_t len = strlen(tempOut);
+    tempOut[len + 2] = '\0';
+    tempOut[len] = tempOut[len - 1];
+    tempOut[len - 1] = tempOut[len - 2];
+    tempOut[len - 2] = '.';
+    tempOut[len + 1] = 'C';
+    
+    
+
+}
+
+void pressRawToFormatted(uint32_t numericPressIn, char* pressOut) {
+    float press = numericPressIn / 25600.0f;
+    sprintf(pressOut, "%.3fhPa", press);
+}
+
+void humRawToFormatted(uint32_t numericHumIn, char* humOut) {
+    float hum = numericHumIn / 1024.0f;
+    sprintf(humOut, "%.2f%%RH", hum);
+}
+
 
 void formatMeasurements(BME280_Calib_t *data, uint8_t *rawBuffer,char *tempOut, char *pressOut, char *humOut){
 
@@ -59,19 +109,13 @@ void formatMeasurements(BME280_Calib_t *data, uint8_t *rawBuffer,char *tempOut, 
     uint32_t H = (uint32_t)(v_x1_u32r >> 12);
 
 
+    tempRawToFormatted(T, tempOut);
+    pressRawToFormatted(P, pressOut);
+    humRawToFormatted(H, humOut);
+
 }
 
 
-void tempRawToFormatted(int32_t *numericTempIn, char *tempOut){
-	//not implemented
-}
 
-void pressRawToFormatted(int32_t *numericPressIn, char *pressOut){
-	//not implemented
-}
-
-void humRawToFormatted(int32_t *numericHumIn, char *humOut){
-	//not implemented
-}
 
 
