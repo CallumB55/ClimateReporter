@@ -10,7 +10,7 @@
 
 void bme280Init(I2C_HandleTypeDef *hi2c){
 	uint8_t humControl = 0x01;
-	uint8_t tempPressControl = 0x27;
+	uint8_t tempPressControl = 0x24; //previously had this set to 0x27 but that increased the temperature reading by about 1.5C above ambient.
 
 	//write to humidity control to setup i2cHandle, bmeWriteAddr,HumidityControlMemAddr,wysiwyg,sets to oversampling 1x, number of bytes, timeout
 	//oversampling is different to below, only first three bits of byte are used 00000001
@@ -23,6 +23,9 @@ void bme280Init(I2C_HandleTypeDef *hi2c){
 
 
 void bme280Read(I2C_HandleTypeDef *hi2c, uint8_t* readingBuffer){
+	uint8_t wakeUpAndRead = 0x25;
+	HAL_I2C_Mem_Write(hi2c, 0xEC, 0xF4, I2C_MEMADD_SIZE_8BIT, &wakeUpAndRead, 1, HAL_MAX_DELAY); //tells sensor to wake up and take one reading, storing it in memory
+	HAL_Delay(20); //gives sensor enough time to record data before the read
 	//reads measurement, starts at 0xF7 (press_msb) then iterates through press_lsb, press_xlsb, temp_msb, temp_lsb,temp_xlsb,hum_msb,hum_lsb
 	HAL_I2C_Mem_Read(hi2c, 0xEC, 0xF7, I2C_MEMADD_SIZE_8BIT, readingBuffer, 8, HAL_MAX_DELAY);
 

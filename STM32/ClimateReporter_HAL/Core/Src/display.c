@@ -75,7 +75,7 @@ void displayClear(I2C_HandleTypeDef *hi2c) {
 
 			0xDA, 0x12, // Set COM Pins Hardware Configuration
 
-			0x81, 0x7F, // Set Contrast to default
+			0x81, 0x3F, // Set Contrast to default
 
 			0xA4,       // Entire Display ON (Resume to RAM content)
 
